@@ -72,7 +72,6 @@ class Graph {
 		const results = [];
 
 		while (stack.length) {
-			console.log(stack);
 			const removedVertex = stack.pop();
 			if (!visitedVertices[removedVertex]) {
 				visitedVertices[removedVertex] = true;
@@ -85,7 +84,28 @@ class Graph {
 		}
 
 		return results;
-	}
+    }
+    
+    bfs(startingVertex) {
+        const queue = [startingVertex]
+        const visitedVertices = {};
+        const results = [];
+
+        while (queue.length) {
+            const removedVertex = queue.shift()
+            if (!visitedVertices[removedVertex]) {
+                visitedVertices[removedVertex] = true
+                results.push(removedVertex)
+
+                for (let neighbor of this.adjacencyList[removedVertex]) {
+                    if (!visitedVertices[neighbor]) queue.push(neighbor)
+                }
+
+            }
+        }
+
+        return results
+    }
 }
 
 let g = new Graph();
@@ -107,4 +127,5 @@ g.addEdge("E", "F");
 //console.log(`BEFORE: `, g.adjacencyList)
 console.log("dfsRecursive: ", g.dfsRecursive("A"));
 console.log("dfsIterative: ", g.dfsIterative("A"));
+console.log("bfs: ", g.bfs("A"));
 //console.log(`AFTER: `, g.adjacencyList)
